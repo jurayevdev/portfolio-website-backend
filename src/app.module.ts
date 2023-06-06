@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UsersModule } from './users/users.module';
+import { AboutUsModule } from './about-us/about-us.module';
+import { SocialMediaModule } from './social-media/social-media.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { UsersModule } from './users/users.module';
       logging: false,
     }),
     UsersModule,
+    AboutUsModule,
+    SocialMediaModule,
 ],
   controllers: [],
   providers: [],
