@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateSocialMediaDto } from './dto/create-social-media.dto';
 import { UpdateSocialMediaDto } from './dto/update-social-media.dto';
 import { InjectModel } from '@nestjs/sequelize';
-import { SocialMedia } from './models/social-media.modal';
+import { SocialMedia } from './models/social-media.model';
 
 @Injectable()
 export class SocialMediaService {

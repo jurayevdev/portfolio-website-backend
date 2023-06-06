@@ -1,4 +1,5 @@
 import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { Comment } from "src/comments/models/comment.model";
 
 interface PostAttr {
     content: string;
@@ -36,4 +37,7 @@ export class Post extends Model<Post, PostAttr>{
         type: DataType.STRING
     })
     teg: string;
+
+    @HasMany(() => Comment)
+    comment: Comment
 }

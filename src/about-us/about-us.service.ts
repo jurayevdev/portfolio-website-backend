@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateAboutUsDto } from './dto/create-about-us.dto';
 import { UpdateAboutUsDto } from './dto/update-about-us.dto';
 import { InjectModel } from '@nestjs/sequelize';
-import { AboutUs } from './models/about-us.modal';
+import { AboutUs } from './models/about-us.model';
 
 @Injectable()
 export class AboutUsService {

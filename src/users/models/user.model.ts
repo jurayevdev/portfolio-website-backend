@@ -1,4 +1,5 @@
 import { Column, DataType, Model, Table, HasMany } from "sequelize-typescript";
+import { Comment } from "src/comments/models/comment.model";
 import { Message } from "src/messages/models/message.model";
 
 interface UsersAttr {
@@ -39,4 +40,7 @@ export class Users extends Model<Users, UsersAttr>{
 
     @HasMany(() => Message)
     message: Message
+
+    @HasMany(() => Comment)
+    comment: Comment
 }

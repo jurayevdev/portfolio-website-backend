@@ -8,6 +8,15 @@ import { ProjectsModule } from './projects/projects.module';
 import { WorkedsModule } from './workeds/workeds.module';
 import { MessagesModule } from './messages/messages.module';
 import { PostsModule } from './posts/posts.module';
+import { CommentsModule } from './comments/comments.module';
+import { Users } from './users/models/user.model';
+import { AboutUs } from './about-us/models/about-us.model';
+import { SocialMedia } from './social-media/models/social-media.model';
+import { Project } from './projects/models/project.model';
+import { Worked } from './workeds/models/worked.model';
+import { Message } from './messages/models/message.model';
+import { Post } from './posts/models/post.model';
+import { Comment } from './comments/models/comment.model';
 
 @Module({
   imports: [
@@ -19,7 +28,7 @@ import { PostsModule } from './posts/posts.module';
       username: process.env.POSTGRES_USER,
       password: String(process.env.POSTGRES_PASSWORD),
       database: process.env.POSTGRES_DB,
-      models: [],
+      models: [Users, AboutUs, SocialMedia, Project, Worked, Message, Post, Comment],
       autoLoadModels: true,
       logging: false,
     }),
@@ -30,6 +39,7 @@ import { PostsModule } from './posts/posts.module';
     WorkedsModule,
     MessagesModule,
     PostsModule,
+    CommentsModule,
 ],
   controllers: [],
   providers: [],

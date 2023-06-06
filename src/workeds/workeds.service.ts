@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateWorkedDto } from './dto/create-worked.dto';
 import { UpdateWorkedDto } from './dto/update-worked.dto';
 import { InjectModel } from '@nestjs/sequelize';
-import { Worked } from './models/worked.modal';
+import { Worked } from './models/worked.model';
 
 @Injectable()
 export class WorkedsService {
