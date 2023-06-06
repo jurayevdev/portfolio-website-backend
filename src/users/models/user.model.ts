@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { Column, DataType, Model, Table, HasMany } from "sequelize-typescript";
+import { Message } from "src/messages/models/message.model";
 
 interface UsersAttr {
     email: string,
@@ -35,4 +36,7 @@ export class Users extends Model<Users, UsersAttr>{
         type: DataType.STRING
     })
     hashed_token: string
+
+    @HasMany(() => Message)
+    message: Message
 }

@@ -6,6 +6,7 @@ import { AboutUsModule } from './about-us/about-us.module';
 import { SocialMediaModule } from './social-media/social-media.module';
 import { ProjectsModule } from './projects/projects.module';
 import { WorkedsModule } from './workeds/workeds.module';
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { WorkedsModule } from './workeds/workeds.module';
     SocialMediaModule,
     ProjectsModule,
     WorkedsModule,
+    MessagesModule,
 ],
   controllers: [],
   providers: [],
