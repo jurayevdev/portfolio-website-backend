@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsArray, IsNotEmpty, IsObject, IsString } from "class-validator";
 
 export class CreateProjectDto {
     @ApiProperty({example: "GitHub", description: "Project Name"})
