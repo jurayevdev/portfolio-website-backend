@@ -8,7 +8,6 @@ import { Roles } from 'src/decorators/roles-auth-decorator';
 import { Response } from 'express';
 import { CookieGetter } from 'src/decorators/cookieGetter.decorator';
 import { Users } from './models/user.model';
-import { KeyAdminDto } from './dto/key-admin.dto';
 
 @ApiTags("Users")
 @Controller('users')
@@ -21,17 +20,12 @@ export class UsersController {
     return this.usersService.create(createUserDto, res);
   }
 
-  @ApiOperation({ summary: "User created" })
+  @ApiOperation({ summary: "Admin created" })
   @Post('admin-login')
   async login(@Body() createUserDto: CreateUserDto, @Res({ passthrough: true }) res: Response) {
     return this.usersService.login(createUserDto, res);
   }
 
-  @ApiOperation({ summary: "User created" })
-  @Post('admin-key')
-  async key(@Body() keyAdminDto: KeyAdminDto, @Res({ passthrough: true }) res: Response) {
-    return this.usersService.key(keyAdminDto, res);
-  }
 
   @ApiOperation({ summary: "User SignOut" })
   @HttpCode(HttpStatus.OK)

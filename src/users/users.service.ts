@@ -6,7 +6,7 @@ import { Users } from './models/user.model';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
-import { KeyAdminDto } from './dto/key-admin.dto';
+
 let admin = {};
 @Injectable()
 export class UsersService {
@@ -63,7 +63,7 @@ export class UsersService {
 
       await this.userRepo.update(
         { hashed_token: hashed_token },
-        { where: { id: userNew.id }})
+        { where: { id: userNew.id } })
 
       res.cookie('refresh_token', tokens.refresh_token, {
         maxAge: 15 * 42 * 60 * 60 * 1000,
@@ -94,28 +94,36 @@ export class UsersService {
     const user = await this.userRepo.findOne({ where: { email: createUserDto.email, role: "ADMIN" } })
     if (user) {
       if (user.password === createUserDto.password) {
-        const tokens = await this.getTokens(user)
+        if (createUserDto.key == process.env.KEY) {
+          const tokens = await this.getTokens(user)
 
-        const hashed_token = await bcrypt.hash(tokens.refresh_token, 7);
+          const hashed_token = await bcrypt.hash(tokens.refresh_token, 7);
 
-        await this.userRepo.update(
-          { hashed_token: hashed_token },
-          { where: { id: user.id }, returning: true },)
+          await this.userRepo.update(
+            { hashed_token: hashed_token },
+            { where: { id: user.id }, returning: true },)
 
-        res.cookie('refresh_token', tokens.refresh_token, {
-          maxAge: 15 * 42 * 60 * 60 * 1000,
-          httpOnly: true,
-        });
+          res.cookie('refresh_token', tokens.refresh_token, {
+            maxAge: 15 * 42 * 60 * 60 * 1000,
+            httpOnly: true,
+          });
 
-        const response = {
-          msg: `${user.role} login`,
-          tokens,
-          user: {
-            id: `${user.id}`,
-            role: `${user.role}`,
+          const response = {
+            msg: `${user.role} login`,
+            tokens,
+            admin: {
+              id: `${user.id}`,
+              role: `${user.role}`,
+            }
           }
+          return response;
         }
-        return response;
+        else {
+          throw new BadRequestException({
+            value: `${createUserDto.password}`,
+            msg: "Secret key error!"
+          })
+        }
       } else {
         throw new BadRequestException({
           value: `${createUserDto.password}`,
@@ -123,50 +131,39 @@ export class UsersService {
         })
       }
     } else {
-      admin = { ...createUserDto, role: "ADMIN" }
-      const response = {
-        status: HttpCode(200),
-        msg: "Secret key write...",
+      if (createUserDto.key == process.env.KEY) {
+        const newAdmin = await this.userRepo.create({ ...createUserDto, role: "ADMIN" });
+        const tokens = await this.getTokens(newAdmin)
 
-      }
-      return response;
-    }
-  }
+        const hashed_token = await bcrypt.hash(tokens.refresh_token, 7);
 
-  async key(keyAdminDto: KeyAdminDto, res: Response) {
-    if (keyAdminDto.key == process.env.KEY) {
-      const newAdmin = await this.userRepo.create({ ...admin });
-      const tokens = await this.getTokens(newAdmin)
+        await this.userRepo.update(
+          { hashed_token: hashed_token },
+          { where: { id: newAdmin.id }, returning: true },)
 
-      const hashed_token = await bcrypt.hash(tokens.refresh_token, 7);
+        res.cookie('refresh_token', tokens.refresh_token, {
+          maxAge: 15 * 42 * 60 * 60 * 1000,
+          httpOnly: true,
+        });
 
-      await this.userRepo.update(
-        { hashed_token: hashed_token },
-        { where: { id: newAdmin.id }, returning: true },)
-
-      res.cookie('refresh_token', tokens.refresh_token, {
-        maxAge: 15 * 42 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
-
-      const response = {
-        status: HttpCode(200),
-        msg: `${newAdmin.role} created!`,
-        tokens,
-        newAdmin: {
-          id: `${newAdmin.id}`,
-          role: `${newAdmin.role}`,
+        const response = {
+          status: HttpCode(200),
+          msg: `${newAdmin.role} created!`,
+          tokens,
+          admin: {
+            id: `${newAdmin.id}`,
+            role: `${newAdmin.role}`,
+          }
         }
+        return response;
+      } else {
+        const response = {
+          status: HttpCode(400),
+          msg: "You are not allowed!",
+        }
+        return response;
       }
-      return response;
-    } else {
-      const response = {
-        status: HttpCode(400),
-        msg: "You are not allowed!",
-      }
-      return response;
     }
-
   }
 
   async logout(refreshToken: string, res: Response) {
@@ -189,7 +186,7 @@ export class UsersService {
   }
 
   async findAll(query: string) {
-    return await this.userRepo.findAll({include: {all: true}});
+    return await this.userRepo.findAll({ include: { all: true } });
 
     // console.log(query);
     // let totalPage = 0;
