@@ -17,6 +17,8 @@ import { Worked } from './workeds/models/worked.model';
 import { Message } from './messages/models/message.model';
 import { Post } from './posts/models/post.model';
 import { Comment } from './comments/models/comment.model';
+import { SkillsModule } from './skills/skills.module';
+import { Skill } from './skills/models/skill.modal';
 
 @Module({
   imports: [
@@ -28,7 +30,7 @@ import { Comment } from './comments/models/comment.model';
       username: process.env.POSTGRES_USER,
       password: String(process.env.POSTGRES_PASSWORD),
       database: process.env.POSTGRES_DB,
-      models: [Users, AboutUs, SocialMedia, Project, Worked, Message, Post, Comment],
+      models: [Users, AboutUs, SocialMedia, Project, Worked, Message, Post, Comment, Skill],
       autoLoadModels: true,
       logging: false,
     }),
@@ -40,6 +42,7 @@ import { Comment } from './comments/models/comment.model';
     MessagesModule,
     PostsModule,
     CommentsModule,
+    SkillsModule,
 ],
   controllers: [],
   providers: [],

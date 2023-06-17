@@ -24,11 +24,6 @@ export class CreateAboutUsDto {
     @IsNotEmpty()
     email: string;
 
-    @ApiProperty({example: "web developer", description: "Scills"})
-    @IsString()
-    @IsNotEmpty()
-    scills: string;
-
     @ApiProperty({example: "09.09.2003", description: "Birthday"})
     @IsString()
     @IsNotEmpty()

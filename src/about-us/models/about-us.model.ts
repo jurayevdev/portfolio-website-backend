@@ -5,7 +5,6 @@ interface AboutUsAttr {
     fullname: string,
     phone: string;
     email: string;
-    scills: string;
     birthday: string;
     age: number;
     about: string;
@@ -41,11 +40,6 @@ export class AboutUs extends Model<AboutUs, AboutUsAttr>{
         type: DataType.STRING
     })
     email: string;
-
-    @Column({
-        type: DataType.STRING
-    })
-    scills: string;
 
     @Column({
         type: DataType.STRING
